@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Collapse } from "antd";
 
 import axios from "utils/axios";
+import EditUser from "components/edit-user";
 
 import type User from "types/user";
 
@@ -20,9 +21,9 @@ function HomePage() {
 
   return (
     <Collapse>
-      {users.map(({ id, name, email }) => (
-        <Collapse.Panel key={id} header={`${name} (${email})`}>
-          Lorem ipsum dolor sit amet.
+      {users.map((user) => (
+        <Collapse.Panel key={user.id} header={`${user.name} (${user.email})`}>
+          <EditUser user={user} />
         </Collapse.Panel>
       ))}
     </Collapse>
