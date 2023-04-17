@@ -1,23 +1,34 @@
-import { useEffect, useState } from "react";
-import { Collapse } from "antd";
+import { useEffect } from "react";
+import { Collapse, Spin, Typography } from "antd";
 
-import axios from "utils/axios";
+import { usersApi } from "store/users";
+import { useDispatch, useSelector } from "hooks/use-redux";
 import EditUser from "components/edit-user";
 
-import type User from "types/user";
-
 function HomePage() {
-  const [users, setUsers] = useState<User[]>([]);
+  const { users, isLoading, error } = useSelector((state) => state.users);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const getUsers = async () => {
-      const { data } = await axios.get<User[]>("users");
+    dispatch(usersApi.getUsers());
+  }, [dispatch]);
 
-      setUsers(data);
-    };
+  if (isLoading) {
+    return (
+      <Spin
+        style={{ position: "absolute", top: "50%", right: "50%" }}
+        size="large"
+      />
+    );
+  }
 
-    getUsers();
-  }, []);
+  if (error) {
+    return (
+      <Typography.Text strong type="danger">
+        {error}
+      </Typography.Text>
+    );
+  }
 
   return (
     <Collapse>
