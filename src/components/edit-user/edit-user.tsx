@@ -1,7 +1,8 @@
-import { Button, Col, Form, Input, Row, Space, Typography } from "antd";
+import { Button, Col, Form, Row, Space, Typography } from "antd";
 
+import FormField from "components/form-field";
 import { useSelector } from "hooks/use-redux";
-import Label from "components/label";
+import { getInitialFormValues } from "utils/users/users";
 
 import type EditUserProps from "./edit-user.props";
 
@@ -9,28 +10,23 @@ function EditUser({ uid }: EditUserProps) {
   const user = useSelector(
     (state) => state.users.users.find((u) => u.id === uid)!
   );
+  const [form] = Form.useForm();
 
-  const formInitialValues = {
-    ...user,
-    companyName: user.company.name,
-    companyCatchPhrase: user.company.catchPhrase,
-    companyBs: user.company.bs,
-    addressCity: user.address.city,
-    addressStreet: user.address.street,
-    addressSuite: user.address.suite,
-    addressZipCode: user.address.zipcode,
-    addressLongitude: user.address.geo.lng,
-    addressLatitude: user.address.geo.lat,
+  const initialFormValues = getInitialFormValues(user);
+
+  const handleResetFields = () => {
+    form.resetFields();
   };
 
-  const onFinish = (values: typeof formInitialValues) => {
+  const onFinish = (values: typeof initialFormValues) => {
     console.log(values);
   };
 
   return (
     <Form
       layout="vertical"
-      initialValues={formInitialValues}
+      initialValues={initialFormValues}
+      form={form}
       onFinish={onFinish}
     >
       <Row gutter={32}>
@@ -38,70 +34,32 @@ function EditUser({ uid }: EditUserProps) {
         <Col span={8}>
           <Typography.Title level={3}>Details</Typography.Title>
 
-          <Form.Item label={<Label text="Name" />} name="name">
-            <Input />
-          </Form.Item>
-          <Form.Item label={<Label text="Username" />} name="username">
-            <Input />
-          </Form.Item>
-          <Form.Item label={<Label text="Email" />} name="email">
-            <Input />
-          </Form.Item>
-
-          <Form.Item label={<Label text="Phone Number" />} name="phone">
-            <Input />
-          </Form.Item>
-          <Form.Item label={<Label text="Website" />} name="website">
-            <Input />
-          </Form.Item>
+          <FormField label="Name" name="name" />
+          <FormField label="Username" name="username" />
+          <FormField label="Email" name="email" />
+          <FormField label="Phone Number" name="phone" />
+          <FormField label="Website" name="website" />
         </Col>
 
-        {/*  User Address */}
+        {/* User Address */}
         <Col span={8}>
           <Typography.Title level={3}>Address</Typography.Title>
 
-          <Form.Item label={<Label text="City" />} name="addressCity">
-            <Input />
-          </Form.Item>
-          <Form.Item label={<Label text="Street" />} name="addressStreet">
-            <Input />
-          </Form.Item>
-          <Form.Item label={<Label text="Suite" />} name="addressSuite">
-            <Input />
-          </Form.Item>
-          <Form.Item label={<Label text="ZIP Code" />} name="addressZipCode">
-            <Input />
-          </Form.Item>
-          <Form.Item label={<Label text="Latitude" />} name="addressLatitude">
-            <Input />
-          </Form.Item>
-          <Form.Item label={<Label text="Longitude" />} name="addressLongitude">
-            <Input />
-          </Form.Item>
+          <FormField label="City" name="addressCity" />
+          <FormField label="Street" name="addressStreet" />
+          <FormField label="Suite" name="addressSuite" />
+          <FormField label="ZIP Code" name="addressZipCode" />
+          <FormField label="Latitude" name="addressLatitude" />
+          <FormField label="Longitude" name="addressLongitude" />
         </Col>
 
-        {/* User Company */}
+        {/*  User Company */}
         <Col span={8}>
           <Typography.Title level={3}>Company</Typography.Title>
 
-          <Form.Item label={<Label text="City" />} name="addressCity">
-            <Input />
-          </Form.Item>
-          <Form.Item label={<Label text="Street" />} name="addressStreet">
-            <Input />
-          </Form.Item>
-          <Form.Item label={<Label text="Suite" />} name="addressSuite">
-            <Input />
-          </Form.Item>
-          <Form.Item label={<Label text="ZIP Code" />} name="addressZipCode">
-            <Input />
-          </Form.Item>
-          <Form.Item label={<Label text="Latitude" />} name="addressLatitude">
-            <Input />
-          </Form.Item>
-          <Form.Item label={<Label text="Longitude" />} name="addressLongitude">
-            <Input />
-          </Form.Item>
+          <FormField label="Name" name="companyName" />
+          <FormField label="Catch Phrase" name="companyCatchPhrase" />
+          <FormField label="Business Services" name="companyBs" />
         </Col>
       </Row>
 
@@ -111,7 +69,7 @@ function EditUser({ uid }: EditUserProps) {
           Save
         </Button>
 
-        <Button size="large" danger>
+        <Button size="large" danger onClick={handleResetFields}>
           Cancel
         </Button>
       </Space>
