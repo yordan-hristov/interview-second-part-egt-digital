@@ -1,10 +1,15 @@
 import { Button, Col, Form, Input, Row, Space, Typography } from "antd";
 
+import { useSelector } from "hooks/use-redux";
 import Label from "components/label";
 
 import type EditUserProps from "./edit-user.props";
 
-function EditUser({ user }: EditUserProps) {
+function EditUser({ uid }: EditUserProps) {
+  const user = useSelector(
+    (state) => state.users.users.find((u) => u.id === uid)!
+  );
+
   const formInitialValues = {
     ...user,
     companyName: user.company.name,
@@ -18,12 +23,21 @@ function EditUser({ user }: EditUserProps) {
     addressLatitude: user.address.geo.lat,
   };
 
+  const onFinish = (values: typeof formInitialValues) => {
+    console.log(values);
+  };
+
   return (
-    <Form initialValues={formInitialValues} layout="vertical">
-      {/* User Details */}
-      <Typography.Title level={3}>Details</Typography.Title>
-      <Row gutter={16}>
-        <Col span={6}>
+    <Form
+      layout="vertical"
+      initialValues={formInitialValues}
+      onFinish={onFinish}
+    >
+      <Row gutter={32}>
+        {/* User Details */}
+        <Col span={8}>
+          <Typography.Title level={3}>Details</Typography.Title>
+
           <Form.Item label={<Label text="Name" />} name="name">
             <Input />
           </Form.Item>
@@ -33,9 +47,7 @@ function EditUser({ user }: EditUserProps) {
           <Form.Item label={<Label text="Email" />} name="email">
             <Input />
           </Form.Item>
-        </Col>
 
-        <Col span={6}>
           <Form.Item label={<Label text="Phone Number" />} name="phone">
             <Input />
           </Form.Item>
@@ -43,38 +55,11 @@ function EditUser({ user }: EditUserProps) {
             <Input />
           </Form.Item>
         </Col>
-      </Row>
 
-      {/* User Company Details */}
-      <Typography.Title level={3}>Company</Typography.Title>
-      <Row gutter={16}>
-        <Col span={6}>
-          <Form.Item label={<Label text="Name" />} name="companyName">
-            <Input />
-          </Form.Item>
+        {/*  User Address */}
+        <Col span={8}>
+          <Typography.Title level={3}>Address</Typography.Title>
 
-          <Form.Item
-            label={<Label text="Business Services" />}
-            name="companyBs"
-          >
-            <Input />
-          </Form.Item>
-        </Col>
-
-        <Col span={6}>
-          <Form.Item
-            label={<Label text="Catch Phrase" />}
-            name="companyCatchPhrase"
-          >
-            <Input />
-          </Form.Item>
-        </Col>
-      </Row>
-
-      {/* User Address Details */}
-      <Typography.Title level={3}>Address</Typography.Title>
-      <Row gutter={16}>
-        <Col span={6}>
           <Form.Item label={<Label text="City" />} name="addressCity">
             <Input />
           </Form.Item>
@@ -84,9 +69,30 @@ function EditUser({ user }: EditUserProps) {
           <Form.Item label={<Label text="Suite" />} name="addressSuite">
             <Input />
           </Form.Item>
+          <Form.Item label={<Label text="ZIP Code" />} name="addressZipCode">
+            <Input />
+          </Form.Item>
+          <Form.Item label={<Label text="Latitude" />} name="addressLatitude">
+            <Input />
+          </Form.Item>
+          <Form.Item label={<Label text="Longitude" />} name="addressLongitude">
+            <Input />
+          </Form.Item>
         </Col>
 
-        <Col span={6}>
+        {/* User Company */}
+        <Col span={8}>
+          <Typography.Title level={3}>Company</Typography.Title>
+
+          <Form.Item label={<Label text="City" />} name="addressCity">
+            <Input />
+          </Form.Item>
+          <Form.Item label={<Label text="Street" />} name="addressStreet">
+            <Input />
+          </Form.Item>
+          <Form.Item label={<Label text="Suite" />} name="addressSuite">
+            <Input />
+          </Form.Item>
           <Form.Item label={<Label text="ZIP Code" />} name="addressZipCode">
             <Input />
           </Form.Item>
@@ -101,11 +107,12 @@ function EditUser({ user }: EditUserProps) {
 
       {/* Buttons */}
       <Space size="middle">
+        <Button size="large" type="primary" htmlType="submit">
+          Save
+        </Button>
+
         <Button size="large" danger>
           Cancel
-        </Button>
-        <Button size="large" type="primary">
-          Save
         </Button>
       </Space>
     </Form>
