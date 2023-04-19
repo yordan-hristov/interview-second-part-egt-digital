@@ -1,6 +1,6 @@
 import type User from "types/user";
 
-export const getInitialFormValues = ({
+export const userObjectToFormData = ({
   name,
   username,
   email,
@@ -23,4 +23,44 @@ export const getInitialFormValues = ({
   addressZipCode: address.zipcode,
   addressLongitude: address.geo.lng,
   addressLatitude: address.geo.lat,
+});
+
+export const formDataToUserObject = ({
+  id,
+  name,
+  username,
+  email,
+  phone,
+  website,
+  companyName,
+  companyCatchPhrase,
+  companyBs,
+  addressCity,
+  addressStreet,
+  addressSuite,
+  addressZipCode,
+  addressLongitude,
+  addressLatitude,
+}: ReturnType<typeof userObjectToFormData> & { id: number }) => ({
+  id,
+  name,
+  username,
+  email,
+  phone,
+  website,
+  company: {
+    name: companyName,
+    catchPhrase: companyCatchPhrase,
+    bs: companyBs,
+  },
+  address: {
+    city: addressCity,
+    street: addressStreet,
+    suite: addressSuite,
+    zipcode: addressZipCode,
+    geo: {
+      lng: addressLongitude,
+      lat: addressLatitude,
+    },
+  },
 });
