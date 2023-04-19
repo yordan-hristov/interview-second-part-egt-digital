@@ -1,10 +1,10 @@
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 import { Button, Collapse, Divider, Spin, Typography } from "antd";
 
 import { usersApi } from "store/users";
 import { useDispatch, useSelector } from "hooks/use-redux";
 import EditUser from "components/edit-user";
-import { Link } from "react-router-dom";
 
 function HomePage() {
   const { users, isLoading, error } = useSelector((state) => state.users);
