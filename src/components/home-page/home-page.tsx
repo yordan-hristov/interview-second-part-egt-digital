@@ -16,11 +16,16 @@ function HomePage() {
 
   return (
     <div>
-      <Typography.Title level={1}>Users:</Typography.Title>
+      <Typography.Title level={2}>Users:</Typography.Title>
 
       {isLoading && (
         <Spin
-          style={{ position: "absolute", top: "50%", right: "50%" }}
+          style={{
+            position: "fixed",
+            top: "50%",
+            right: "50%",
+            zIndex: 999999,
+          }}
           size="large"
         />
       )}
@@ -48,7 +53,7 @@ function HomePage() {
 
               <Divider />
 
-              <Link to={`posts?uid=${user.id}`}>
+              <Link to={`/users/${user.id}/posts`}>
                 <Button size="large" type="default">
                   See Posts
                 </Button>
