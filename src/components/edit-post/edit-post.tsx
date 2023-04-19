@@ -19,8 +19,13 @@ function EditPost({ postId }: EditPostProps) {
     body: post.body,
   };
 
-  const { form, buttonsDisabled, handleResetFields, handleValuesChange } =
-    useForm(initialFormValues);
+  const {
+    form,
+    buttonsDisabled,
+    handleResetFields,
+    handleValuesChange,
+    setDirtyFields,
+  } = useForm(initialFormValues);
 
   const onFinish = async (values: typeof initialFormValues) => {
     const updatedPost = {
@@ -30,6 +35,8 @@ function EditPost({ postId }: EditPostProps) {
     };
 
     dispatch(postsApi.updatePost(updatedPost));
+
+    setDirtyFields([]);
   };
 
   return (
