@@ -1,26 +1,26 @@
-import { Button, Form, Space } from "antd";
+import { Form } from "antd";
 
-import { useDispatch, useSelector } from "hooks/use-redux";
+import { postsApi } from "store/posts";
 import FormField from "components/form-field";
+import FormButtons from "components/form-buttons/form-buttons";
+import { useDispatch, useSelector } from "hooks/use-redux";
+import useForm from "hooks/use-form";
 
 import type EditPostProps from "./edit-post.props";
-import { postsApi } from "store/posts";
 
 function EditPost({ postId }: EditPostProps) {
   const dispatch = useDispatch();
   const post = useSelector(
     (state) => state.posts.posts.find((p) => p.id === postId)!
   );
-  const [form] = Form.useForm();
 
   const initialFormValues = {
     title: post.title,
     body: post.body,
   };
 
-  const handleResetFields = () => {
-    form.resetFields();
-  };
+  const { form, isDirty, handleResetFields, handleValuesChange } =
+    useForm(initialFormValues);
 
   const onFinish = async (values: typeof initialFormValues) => {
     const updatedPost = {
@@ -38,20 +38,13 @@ function EditPost({ postId }: EditPostProps) {
       initialValues={initialFormValues}
       form={form}
       onFinish={onFinish}
+      onValuesChange={handleValuesChange}
     >
       <FormField label="Title" name="title" />
       <FormField label="Body" name="body" textarea />
 
       {/* Buttons */}
-      <Space size="middle">
-        <Button size="large" type="primary" htmlType="submit">
-          Save
-        </Button>
-
-        <Button size="large" danger onClick={handleResetFields}>
-          Cancel
-        </Button>
-      </Space>
+      <FormButtons isDirty={isDirty} handleResetFields={handleResetFields} />
     </Form>
   );
 }
