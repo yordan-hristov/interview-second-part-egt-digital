@@ -21,3 +21,12 @@ export const updatePost = createAsyncThunk(
     return data;
   }
 );
+
+export const deletePost = createAsyncThunk(
+  "posts/deletePost",
+  async (postId: number) => {
+    const { data } = await axios.delete(`posts/${postId}`);
+
+    return data;
+  }
+);
