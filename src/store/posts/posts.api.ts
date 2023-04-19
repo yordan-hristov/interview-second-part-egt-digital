@@ -12,3 +12,12 @@ export const getPosts = createAsyncThunk(
     return data;
   }
 );
+
+export const updatePost = createAsyncThunk(
+  "posts/updatePost",
+  async (post: Post) => {
+    const { data } = await axios.put(`posts/${post.id}`, post);
+
+    return data;
+  }
+);
