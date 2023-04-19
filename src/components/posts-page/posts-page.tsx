@@ -1,23 +1,21 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Collapse, Typography } from "antd";
 
 import EditUser from "components/edit-user";
-import axios from "utils/axios";
+import { useDispatch, useSelector } from "hooks/use-redux";
+import { postsApi } from "store/posts";
 
 function PostsPage() {
   const { uid } = useParams();
-  const [posts, setPosts] = useState<any[]>([]);
+  const { posts } = useSelector((state) => state.posts);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const getPosts = async () => {
-      const { data } = await axios.get(`/users/${uid}/posts`);
-
-      setPosts(data);
-    };
-
-    getPosts();
-  }, [uid]);
+    if (uid) {
+      dispatch(postsApi.getPosts(uid));
+    }
+  }, [dispatch, uid]);
 
   return (
     <div>
