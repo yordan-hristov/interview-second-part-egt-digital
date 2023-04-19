@@ -1,11 +1,11 @@
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { Collapse, Typography } from "antd";
+import { Button, Collapse, Divider, Popconfirm, Typography } from "antd";
 
 import EditUser from "components/edit-user";
+import EditPost from "components/edit-post";
 import { useDispatch, useSelector } from "hooks/use-redux";
 import { postsApi } from "store/posts";
-import EditPost from "components/edit-post";
 
 function PostsPage() {
   const { uid } = useParams();
@@ -17,6 +17,10 @@ function PostsPage() {
       dispatch(postsApi.getPosts(uid));
     }
   }, [dispatch, uid]);
+
+  const createDeletePostHandler = (postId: number) => () => {
+    dispatch(postsApi.deletePost(postId));
+  };
 
   return (
     <div>
@@ -31,6 +35,22 @@ function PostsPage() {
           {posts.map((post) => (
             <Collapse.Panel key={post.id} header={post.title}>
               <EditPost postId={post.id} />
+
+              <Divider />
+
+              <Popconfirm
+                title="Post Delete"
+                description="Are you sure to delete this post?"
+                okText="Yes"
+                okType="danger"
+                okButtonProps={{ type: "primary" }}
+                cancelText="No"
+                onConfirm={createDeletePostHandler(post.id)}
+              >
+                <Button size="large" danger type="primary">
+                  Delete
+                </Button>
+              </Popconfirm>
             </Collapse.Panel>
           ))}
         </Collapse>
