@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "hooks/use-redux";
 import EditUser from "components/edit-user";
 
 function HomePage() {
-  const { users, isLoading, error } = useSelector((state) => state.users);
+  const { users, isLoading } = useSelector((state) => state.users);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -17,12 +17,6 @@ function HomePage() {
   return (
     <div>
       <Typography.Title level={2}>Users:</Typography.Title>
-
-      {error && (
-        <Typography.Text strong type="danger">
-          {error}
-        </Typography.Text>
-      )}
 
       {!isLoading && users && users.length <= 0 && (
         <Typography.Text strong type="danger">

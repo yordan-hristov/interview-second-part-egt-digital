@@ -9,7 +9,7 @@ import { postsApi } from "store/posts";
 
 function PostsPage() {
   const { uid } = useParams();
-  const { posts, isLoading, error } = useSelector((state) => state.posts);
+  const { posts, isLoading } = useSelector((state) => state.posts);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -29,12 +29,6 @@ function PostsPage() {
       {uid && <EditUser key={uid} uid={+uid} />}
 
       <Typography.Title level={2}>Posts:</Typography.Title>
-
-      {error && (
-        <Typography.Text strong type="danger">
-          {error}
-        </Typography.Text>
-      )}
 
       {!isLoading && posts && posts.length <= 0 && (
         <Typography.Text strong type="danger">
