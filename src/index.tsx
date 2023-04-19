@@ -4,6 +4,7 @@ import { BrowserRouter } from "react-router-dom";
 import { Provider as ReduxProvider } from "react-redux";
 
 import store from "store";
+import NotificationsProvider from "providers/notifications";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
@@ -16,6 +17,8 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <ReduxProvider store={store}>
+        <NotificationsProvider />
+
         <App />
       </ReduxProvider>
     </BrowserRouter>
