@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { Button, Collapse, Divider, Popconfirm, Spin, Typography } from "antd";
+import { Button, Collapse, Divider, Popconfirm, Typography } from "antd";
 
 import EditUser from "components/edit-user";
 import EditPost from "components/edit-post";
@@ -29,18 +29,6 @@ function PostsPage() {
       {uid && <EditUser key={uid} uid={+uid} />}
 
       <Typography.Title level={2}>Posts:</Typography.Title>
-
-      {isLoading && (
-        <Spin
-          style={{
-            position: "fixed",
-            top: "50%",
-            right: "50%",
-            zIndex: 999999,
-          }}
-          size="large"
-        />
-      )}
 
       {error && (
         <Typography.Text strong type="danger">

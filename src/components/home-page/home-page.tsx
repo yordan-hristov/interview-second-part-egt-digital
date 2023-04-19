@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Button, Collapse, Divider, Spin, Typography } from "antd";
+import { Button, Collapse, Divider, Typography } from "antd";
 
 import { usersApi } from "store/users";
 import { useDispatch, useSelector } from "hooks/use-redux";
@@ -17,18 +17,6 @@ function HomePage() {
   return (
     <div>
       <Typography.Title level={2}>Users:</Typography.Title>
-
-      {isLoading && (
-        <Spin
-          style={{
-            position: "fixed",
-            top: "50%",
-            right: "50%",
-            zIndex: 999999,
-          }}
-          size="large"
-        />
-      )}
 
       {error && (
         <Typography.Text strong type="danger">
