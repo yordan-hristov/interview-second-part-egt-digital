@@ -16,7 +16,7 @@ export const getPosts = createAsyncThunk(
 export const updatePost = createAsyncThunk(
   "posts/updatePost",
   async (post: Post) => {
-    const { data } = await axios.put(`posts/${post.id}`, post);
+    const { data } = await axios.put<Post>(`posts/${post.id}`, post);
 
     return data;
   }
@@ -25,7 +25,7 @@ export const updatePost = createAsyncThunk(
 export const deletePost = createAsyncThunk(
   "posts/deletePost",
   async (postId: number) => {
-    const { data } = await axios.delete(`posts/${postId}`);
+    const { data } = await axios.delete<Post>(`posts/${postId}`);
 
     return data;
   }
