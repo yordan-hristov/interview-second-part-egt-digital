@@ -9,3 +9,12 @@ export const getUsers = createAsyncThunk("users/getUsers", async () => {
 
   return data;
 });
+
+export const updateUser = createAsyncThunk(
+  "users/updateUser",
+  async (user: User) => {
+    const { data } = await axios.put(`users/${user.id}`, user);
+
+    return data;
+  }
+);
