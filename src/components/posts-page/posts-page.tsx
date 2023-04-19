@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { Button, Collapse, Divider, Popconfirm, Typography } from "antd";
+import { Button, Collapse, Divider, Popconfirm, Spin, Typography } from "antd";
 
 import EditUser from "components/edit-user";
 import EditPost from "components/edit-post";
@@ -9,7 +9,7 @@ import { postsApi } from "store/posts";
 
 function PostsPage() {
   const { uid } = useParams();
-  const { posts } = useSelector((state) => state.posts);
+  const { posts, isLoading, error } = useSelector((state) => state.posts);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -30,7 +30,31 @@ function PostsPage() {
 
       <Typography.Title level={2}>Posts:</Typography.Title>
 
-      {posts && (
+      {isLoading && (
+        <Spin
+          style={{
+            position: "fixed",
+            top: "50%",
+            right: "50%",
+            zIndex: 999999,
+          }}
+          size="large"
+        />
+      )}
+
+      {error && (
+        <Typography.Text strong type="danger">
+          {error}
+        </Typography.Text>
+      )}
+
+      {!isLoading && posts && posts.length <= 0 && (
+        <Typography.Text strong type="danger">
+          There are currently no posts
+        </Typography.Text>
+      )}
+
+      {posts && posts.length > 0 && (
         <Collapse>
           {posts.map((post) => (
             <Collapse.Panel key={post.id} header={post.title}>
