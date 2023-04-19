@@ -15,7 +15,7 @@ function FormField({
       label={<Typography.Text strong>{label}</Typography.Text>}
       name={name}
     >
-      {textarea ? <Input.TextArea /> : <Input />}
+      {textarea ? <Input.TextArea autoSize /> : <Input />}
     </Form.Item>
   );
 }
