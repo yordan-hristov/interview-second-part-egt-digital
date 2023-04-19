@@ -7,7 +7,9 @@ import type Post from "types/post";
 interface PostsState {
   posts: Post[];
   isLoading: boolean;
-  error: null | string;
+  error: {
+    message: string;
+  } | null;
   notification: {
     type: "error" | "success";
     value: string;
@@ -34,9 +36,11 @@ const postsSlice = createSlice({
       })
       .addCase(getPosts.rejected, (state, action) => {
         state.isLoading = false;
-        state.error =
-          action.error.message ||
-          "Error occurred while trying to fetch posts for current users";
+        state.error = {
+          message:
+            action.error.message ||
+            "Error occurred while trying to fetch posts for current users",
+        };
       })
       // updatePost
       .addCase(updatePost.fulfilled, (state, action) => {
@@ -53,9 +57,11 @@ const postsSlice = createSlice({
       })
       .addCase(updatePost.rejected, (state, action) => {
         state.isLoading = false;
-        state.error =
-          action.error.message ||
-          "Error occurred while trying to update the post";
+        state.error = {
+          message:
+            action.error.message ||
+            "Error occurred while trying to update the post",
+        };
         state.notification = {
           type: "error",
           value: "Updating post failed",
@@ -75,9 +81,11 @@ const postsSlice = createSlice({
       })
       .addCase(deletePost.rejected, (state, action) => {
         state.isLoading = false;
-        state.error =
-          action.error.message ||
-          "Error occurred while trying to delete the post";
+        state.error = {
+          message:
+            action.error.message ||
+            "Error occurred while trying to delete the post",
+        };
         state.notification = {
           type: "error",
           value: "Deleting post failed",

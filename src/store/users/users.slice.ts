@@ -7,7 +7,9 @@ import type User from "types/user";
 interface UserState {
   users: User[];
   isLoading: boolean;
-  error: null | string;
+  error: {
+    message: string;
+  } | null;
   notification: {
     type: "success" | "error";
     value: string;
@@ -34,9 +36,11 @@ const usersSlice = createSlice({
       })
       .addCase(getUsers.rejected, (state, action) => {
         state.isLoading = false;
-        state.error =
-          action.error.message ||
-          "Error occurred while trying to fetch all users";
+        state.error = {
+          message:
+            action.error.message ||
+            "Error occurred while trying to fetch all users",
+        };
       })
       // updateUser
       .addCase(updateUser.rejected, (state, action) => {
@@ -45,8 +49,11 @@ const usersSlice = createSlice({
           type: "error",
           value: "Updating user failed",
         };
-        state.error =
-          action.error.message || "Error occurred while trying to update user";
+        state.error = {
+          message:
+            action.error.message ||
+            "Error occurred while trying to update user",
+        };
       })
       .addCase(updateUser.fulfilled, (state, action) => {
         state.isLoading = false;
