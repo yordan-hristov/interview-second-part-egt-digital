@@ -5,6 +5,7 @@ import { Collapse, Typography } from "antd";
 import EditUser from "components/edit-user";
 import { useDispatch, useSelector } from "hooks/use-redux";
 import { postsApi } from "store/posts";
+import EditPost from "components/edit-post";
 
 function PostsPage() {
   const { uid } = useParams();
@@ -29,7 +30,7 @@ function PostsPage() {
         <Collapse>
           {posts.map((post) => (
             <Collapse.Panel key={post.id} header={post.title}>
-              {post.body}
+              <EditPost postId={post.id} />
             </Collapse.Panel>
           ))}
         </Collapse>
