@@ -26,7 +26,7 @@ function PostsPage() {
     <div>
       <Typography.Title level={2}>User:</Typography.Title>
 
-      {uid && <EditUser uid={+uid} />}
+      {uid && <EditUser key={uid} uid={+uid} />}
 
       <Typography.Title level={2}>Posts:</Typography.Title>
 
