@@ -1,9 +1,10 @@
 import { Button, Form, Space } from "antd";
 
 import { useDispatch, useSelector } from "hooks/use-redux";
+import FormField from "components/form-field";
 
 import type EditPostProps from "./edit-post.props";
-import FormField from "components/form-field";
+import { postsApi } from "store/posts";
 
 function EditPost({ postId }: EditPostProps) {
   const dispatch = useDispatch();
@@ -12,16 +13,29 @@ function EditPost({ postId }: EditPostProps) {
   );
   const [form] = Form.useForm();
 
+  const initialFormValues = {
+    title: post.title,
+    body: post.body,
+  };
+
   const handleResetFields = () => {
     form.resetFields();
   };
 
-  const onFinish = async () => {};
+  const onFinish = async (values: typeof initialFormValues) => {
+    const updatedPost = {
+      ...values,
+      id: post.id,
+      userId: post.userId,
+    };
+
+    dispatch(postsApi.updatePost(updatedPost));
+  };
 
   return (
     <Form
       layout="vertical"
-      initialValues={post}
+      initialValues={initialFormValues}
       form={form}
       onFinish={onFinish}
     >
