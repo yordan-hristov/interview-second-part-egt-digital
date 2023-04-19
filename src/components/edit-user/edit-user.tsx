@@ -1,6 +1,7 @@
-import { Button, Col, Form, Row, Space, Typography } from "antd";
+import { Col, Form, Row, Typography } from "antd";
 
 import FormField from "components/form-field";
+import FormButtons from "components/form-buttons/form-buttons";
 import useForm from "hooks/use-form";
 import { useDispatch, useSelector } from "hooks/use-redux";
 import { formDataToUserObject, userObjectToFormData } from "utils/users/users";
@@ -67,25 +68,7 @@ function EditUser({ uid }: EditUserProps) {
       </Row>
 
       {/* Buttons */}
-      <Space size="middle">
-        <Button
-          disabled={!isDirty}
-          size="large"
-          type="primary"
-          htmlType="submit"
-        >
-          Save
-        </Button>
-
-        <Button
-          disabled={!isDirty}
-          size="large"
-          danger
-          onClick={handleResetFields}
-        >
-          Cancel
-        </Button>
-      </Space>
+      <FormButtons isDirty={isDirty} handleResetFields={handleResetFields} />
     </Form>
   );
 }
