@@ -6,7 +6,7 @@ import type Post from "types/post";
 
 export const getPosts = createAsyncThunk(
   "posts/getPosts",
-  async (uid: number) => {
+  async (uid: string) => {
     const { data } = await axios.get<Post[]>(`users/${uid}/posts`);
 
     return data;
