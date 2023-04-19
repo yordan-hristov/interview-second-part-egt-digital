@@ -1,7 +1,7 @@
 import { Button, Col, Form, Row, Space, Typography } from "antd";
-import { useState } from "react";
 
 import FormField from "components/form-field";
+import useForm from "hooks/use-form";
 import { useDispatch, useSelector } from "hooks/use-redux";
 import { formDataToUserObject, userObjectToFormData } from "utils/users/users";
 import { usersApi } from "store/users";
@@ -13,33 +13,15 @@ function EditUser({ uid }: EditUserProps) {
   const user = useSelector(
     (state) => state.users.users.find((u) => u.id === uid)!
   );
-  const [form] = Form.useForm();
-  const [dirtyFields, setDirtyFields] = useState<string[]>([]);
   const initialFormValues = userObjectToFormData(user);
-  const isDirty = dirtyFields.length > 0;
 
-  const handleResetFields = () => {
-    form.resetFields();
-    setDirtyFields([]);
-  };
+  const { form, isDirty, handleResetFields, handleValuesChange } =
+    useForm(initialFormValues);
 
   const onFinish = async (values: typeof initialFormValues) => {
     const updatedUser = formDataToUserObject({ ...values, id: uid });
 
     dispatch(usersApi.updateUser(updatedUser));
-  };
-
-  const handleValuesChange = (changed: Partial<typeof initialFormValues>) => {
-    const [key] = Object.keys(changed);
-    const castedKey = key as keyof typeof changed;
-
-    const currentValue = changed[castedKey];
-
-    if (currentValue?.trim() !== initialFormValues[castedKey].trim()) {
-      setDirtyFields((prev) => [...prev, castedKey]);
-    } else {
-      setDirtyFields((prev) => prev.filter((k) => k !== castedKey));
-    }
   };
 
   return (
