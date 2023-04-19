@@ -1,4 +1,5 @@
 import { Button, Col, Form, Row, Space, Typography } from "antd";
+import { useState } from "react";
 
 import FormField from "components/form-field";
 import { useDispatch, useSelector } from "hooks/use-redux";
@@ -13,11 +14,13 @@ function EditUser({ uid }: EditUserProps) {
     (state) => state.users.users.find((u) => u.id === uid)!
   );
   const [form] = Form.useForm();
-
+  const [dirtyFields, setDirtyFields] = useState<string[]>([]);
   const initialFormValues = userObjectToFormData(user);
+  const isDirty = dirtyFields.length > 0;
 
   const handleResetFields = () => {
     form.resetFields();
+    setDirtyFields([]);
   };
 
   const onFinish = async (values: typeof initialFormValues) => {
@@ -26,12 +29,26 @@ function EditUser({ uid }: EditUserProps) {
     dispatch(usersApi.updateUser(updatedUser));
   };
 
+  const handleValuesChange = (changed: Partial<typeof initialFormValues>) => {
+    const [key] = Object.keys(changed);
+    const castedKey = key as keyof typeof changed;
+
+    const currentValue = changed[castedKey];
+
+    if (currentValue?.trim() !== initialFormValues[castedKey].trim()) {
+      setDirtyFields((prev) => [...prev, castedKey]);
+    } else {
+      setDirtyFields((prev) => prev.filter((k) => k !== castedKey));
+    }
+  };
+
   return (
     <Form
       layout="vertical"
       initialValues={initialFormValues}
       form={form}
       onFinish={onFinish}
+      onValuesChange={handleValuesChange}
     >
       <Row gutter={32}>
         {/* User Details */}
@@ -69,11 +86,21 @@ function EditUser({ uid }: EditUserProps) {
 
       {/* Buttons */}
       <Space size="middle">
-        <Button size="large" type="primary" htmlType="submit">
+        <Button
+          disabled={!isDirty}
+          size="large"
+          type="primary"
+          htmlType="submit"
+        >
           Save
         </Button>
 
-        <Button size="large" danger onClick={handleResetFields}>
+        <Button
+          disabled={!isDirty}
+          size="large"
+          danger
+          onClick={handleResetFields}
+        >
           Cancel
         </Button>
       </Space>
