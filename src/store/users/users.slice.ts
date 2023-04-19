@@ -1,17 +1,24 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, isPending } from "@reduxjs/toolkit";
 
 import { getUsers, updateUser } from "./users.api";
 
 import type User from "types/user";
 
-const initialState: {
+interface UserState {
   users: User[];
   isLoading: boolean;
   error: null | string;
-} = {
+  notification: {
+    type: "success" | "error";
+    value: string;
+  } | null;
+}
+
+const initialState: UserState = {
   users: [],
   isLoading: true,
   error: null,
+  notification: null,
 };
 
 const usersSlice = createSlice({
@@ -20,38 +27,38 @@ const usersSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(getUsers.pending, (state) => ({
-        ...state,
-        isLoading: true,
-      }))
-      .addCase(getUsers.fulfilled, (state, action) => ({
-        ...state,
-        users: action.payload,
-        isLoading: false,
-      }))
-      .addCase(getUsers.rejected, (state, action) => ({
-        ...state,
-        isLoading: false,
-        error:
+      // getUsers
+      .addCase(getUsers.fulfilled, (state, action) => {
+        state.users = action.payload;
+        state.isLoading = false;
+      })
+      .addCase(getUsers.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error =
           action.error.message ||
-          "Error occurred while trying to fetch all users",
-      }))
-
-      .addCase(updateUser.pending, (state) => ({
-        ...state,
-        isLoading: true,
-      }))
-
-      .addCase(updateUser.rejected, (state, action) => ({
-        ...state,
-        isLoading: false,
-        error:
-          action.error.message || "Error occurred while trying to update user",
-      }))
-      .addCase(updateUser.fulfilled, (state, action) => ({
-        ...state,
-        isLoading: false,
-      }));
+          "Error occurred while trying to fetch all users";
+      })
+      // updateUser
+      .addCase(updateUser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.notification = {
+          type: "error",
+          value: "Updating user failed",
+        };
+        state.error =
+          action.error.message || "Error occurred while trying to update user";
+      })
+      .addCase(updateUser.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.notification = {
+          type: "success",
+          value: "User updated successfully",
+        };
+      })
+      // Pending matcher
+      .addMatcher(isPending, (state) => {
+        state.isLoading = true;
+      });
   },
 });
 
