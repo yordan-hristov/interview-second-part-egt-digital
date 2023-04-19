@@ -1,8 +1,8 @@
-import type { Rule } from "antd/es/form";
+import type { FormItemProps } from "antd/es/form";
 
-export default interface FormFieldProps {
+type FormFieldProps = FormItemProps & {
   label: string;
-  name: string;
   textarea?: boolean;
-  validationRules?: Rule[];
-}
+};
+
+export default FormFieldProps;
