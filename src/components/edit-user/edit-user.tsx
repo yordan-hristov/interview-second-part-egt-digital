@@ -39,8 +39,16 @@ function EditUser({ uid }: EditUserProps) {
           <Typography.Title level={3}>Details</Typography.Title>
 
           <FormField label="Name" name="name" />
-          <FormField label="Username" name="username" />
-          <FormField label="Email" name="email" />
+          <FormField
+            label="Username"
+            name="username"
+            rules={[{ required: true, min: 3 }]}
+          />
+          <FormField
+            label="Email"
+            name="email"
+            rules={[{ required: true, type: "email" }]}
+          />
           <FormField label="Phone Number" name="phone" />
           <FormField label="Website" name="website" />
         </Col>
@@ -49,7 +57,14 @@ function EditUser({ uid }: EditUserProps) {
         <Col span={8}>
           <Typography.Title level={3}>Address</Typography.Title>
 
-          <FormField label="City" name="addressCity" />
+          <FormField
+            label="City"
+            name="addressCity"
+            rules={[
+              { required: true },
+              { pattern: /^[A-Za-z\s\-']+$/gm, message: "Invalid city name" },
+            ]}
+          />
           <FormField label="Street" name="addressStreet" />
           <FormField label="Suite" name="addressSuite" />
           <FormField label="ZIP Code" name="addressZipCode" />
