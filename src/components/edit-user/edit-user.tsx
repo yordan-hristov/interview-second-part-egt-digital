@@ -1,25 +1,29 @@
 import { Button, Col, Form, Row, Space, Typography } from "antd";
 
 import FormField from "components/form-field";
-import { useSelector } from "hooks/use-redux";
-import { getInitialFormValues } from "utils/users/users";
+import { useDispatch, useSelector } from "hooks/use-redux";
+import { formDataToUserObject, userObjectToFormData } from "utils/users/users";
+import { usersApi } from "store/users";
 
 import type EditUserProps from "./edit-user.props";
 
 function EditUser({ uid }: EditUserProps) {
+  const dispatch = useDispatch();
   const user = useSelector(
     (state) => state.users.users.find((u) => u.id === uid)!
   );
   const [form] = Form.useForm();
 
-  const initialFormValues = getInitialFormValues(user);
+  const initialFormValues = userObjectToFormData(user);
 
   const handleResetFields = () => {
     form.resetFields();
   };
 
-  const onFinish = (values: typeof initialFormValues) => {
-    console.log(values);
+  const onFinish = async (values: typeof initialFormValues) => {
+    const updatedUser = formDataToUserObject({ ...values, id: uid });
+
+    dispatch(usersApi.updateUser(updatedUser));
   };
 
   return (
