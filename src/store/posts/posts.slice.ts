@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { getPosts } from "./posts.api";
+import { getPosts, updatePost } from "./posts.api";
 
 import type Post from "types/post";
 
@@ -35,6 +35,22 @@ const postsSlice = createSlice({
         error:
           action.error.message ||
           "Error occurred while trying to fetch posts for current users",
+      }))
+
+      .addCase(updatePost.pending, (state) => ({
+        ...state,
+        isLoading: true,
+      }))
+      .addCase(updatePost.fulfilled, (state, action) => ({
+        ...state,
+        isLoading: false,
+      }))
+      .addCase(updatePost.rejected, (state, action) => ({
+        ...state,
+        isLoading: false,
+        error:
+          action.error.message ||
+          "Error occurred while trying to update the post",
       }));
   },
 });
