@@ -2,7 +2,12 @@ import { Form, Input, Typography } from "antd";
 
 import type FormFieldProps from "./form-field.props";
 
-function FormField({ label, name, validationRules }: FormFieldProps) {
+function FormField({
+  label,
+  name,
+  validationRules,
+  textarea = false,
+}: FormFieldProps) {
   return (
     <Form.Item
       rules={validationRules}
@@ -10,7 +15,7 @@ function FormField({ label, name, validationRules }: FormFieldProps) {
       label={<Typography.Text strong>{label}</Typography.Text>}
       name={name}
     >
-      <Input />
+      {textarea ? <Input.TextArea /> : <Input />}
     </Form.Item>
   );
 }
