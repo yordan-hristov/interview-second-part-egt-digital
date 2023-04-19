@@ -1,4 +1,4 @@
 export default interface FormButtonsProps {
-  isDirty: boolean;
+  disabled: boolean;
   handleResetFields: () => void;
 }

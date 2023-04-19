@@ -19,7 +19,7 @@ function EditPost({ postId }: EditPostProps) {
     body: post.body,
   };
 
-  const { form, isDirty, handleResetFields, handleValuesChange } =
+  const { form, buttonsDisabled, handleResetFields, handleValuesChange } =
     useForm(initialFormValues);
 
   const onFinish = async (values: typeof initialFormValues) => {
@@ -43,8 +43,10 @@ function EditPost({ postId }: EditPostProps) {
       <FormField label="Title" name="title" />
       <FormField label="Body" name="body" textarea />
 
-      {/* Buttons */}
-      <FormButtons isDirty={isDirty} handleResetFields={handleResetFields} />
+      <FormButtons
+        disabled={buttonsDisabled}
+        handleResetFields={handleResetFields}
+      />
     </Form>
   );
 }

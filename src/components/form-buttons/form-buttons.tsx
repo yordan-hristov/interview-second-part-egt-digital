@@ -2,15 +2,15 @@ import { Button, Space } from "antd";
 
 import type FormButtonsProps from "./form-buttons.props";
 
-function FormButtons({ isDirty, handleResetFields }: FormButtonsProps) {
+function FormButtons({ disabled, handleResetFields }: FormButtonsProps) {
   return (
     <Space size="middle">
-      <Button disabled={!isDirty} size="large" type="primary" htmlType="submit">
+      <Button disabled={disabled} size="large" type="primary" htmlType="submit">
         Save
       </Button>
 
       <Button
-        disabled={!isDirty}
+        disabled={disabled}
         size="large"
         danger
         onClick={handleResetFields}

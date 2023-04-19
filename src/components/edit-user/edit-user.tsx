@@ -16,7 +16,7 @@ function EditUser({ uid }: EditUserProps) {
   );
   const initialFormValues = userObjectToFormData(user);
 
-  const { form, isDirty, handleResetFields, handleValuesChange } =
+  const { form, buttonsDisabled, handleResetFields, handleValuesChange } =
     useForm(initialFormValues);
 
   const onFinish = async (values: typeof initialFormValues) => {
@@ -68,7 +68,10 @@ function EditUser({ uid }: EditUserProps) {
       </Row>
 
       {/* Buttons */}
-      <FormButtons isDirty={isDirty} handleResetFields={handleResetFields} />
+      <FormButtons
+        disabled={buttonsDisabled}
+        handleResetFields={handleResetFields}
+      />
     </Form>
   );
 }
