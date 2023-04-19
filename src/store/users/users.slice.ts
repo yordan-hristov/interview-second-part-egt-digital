@@ -16,7 +16,7 @@ interface UserState {
 
 const initialState: UserState = {
   users: [],
-  isLoading: true,
+  isLoading: false,
   error: null,
   notification: null,
 };
@@ -56,7 +56,7 @@ const usersSlice = createSlice({
         };
       })
       // Pending matcher
-      .addMatcher(isPending, (state) => {
+      .addMatcher(isPending(getUsers, updateUser), (state, action) => {
         state.isLoading = true;
       });
   },

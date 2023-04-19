@@ -16,7 +16,7 @@ interface PostsState {
 
 const initialState: PostsState = {
   posts: [],
-  isLoading: true,
+  isLoading: false,
   error: null,
   notification: null,
 };
@@ -75,7 +75,7 @@ const postsSlice = createSlice({
         };
       })
       // Pending matcher
-      .addMatcher(isPending, (state) => {
+      .addMatcher(isPending(getPosts, updatePost, deletePost), (state) => {
         state.isLoading = true;
       });
   },
