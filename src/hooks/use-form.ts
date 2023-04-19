@@ -26,7 +26,13 @@ function useForm(initialFormValues: Record<string, string>) {
   const isDirty = dirtyFields.length > 0;
   const buttonsDisabled = !isDirty;
 
-  return { form, buttonsDisabled, handleValuesChange, handleResetFields };
+  return {
+    form,
+    buttonsDisabled,
+    handleValuesChange,
+    handleResetFields,
+    setDirtyFields,
+  };
 }
 
 export default useForm;
