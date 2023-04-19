@@ -45,6 +45,11 @@ const postsSlice = createSlice({
           type: "success",
           value: "Post updated successfully",
         };
+
+        const updated = action.payload;
+        const index = state.posts.findIndex((p) => p.id === updated.id);
+
+        state.posts[index] = updated;
       })
       .addCase(updatePost.rejected, (state, action) => {
         state.isLoading = false;
@@ -63,6 +68,10 @@ const postsSlice = createSlice({
           type: "success",
           value: "Post deleted successfully",
         };
+
+        const deletedPostId = action.meta.arg;
+
+        state.posts = state.posts.filter((p) => p.id !== deletedPostId);
       })
       .addCase(deletePost.rejected, (state, action) => {
         state.isLoading = false;

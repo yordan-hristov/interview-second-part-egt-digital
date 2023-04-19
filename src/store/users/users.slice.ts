@@ -54,6 +54,11 @@ const usersSlice = createSlice({
           type: "success",
           value: "User updated successfully",
         };
+
+        const updated = action.payload;
+        const index = state.users.findIndex((u) => u.id === updated.id);
+
+        state.users[index] = updated;
       })
       // Pending matcher
       .addMatcher(isPending(getUsers, updateUser), (state, action) => {
