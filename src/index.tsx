@@ -5,6 +5,7 @@ import { Provider as ReduxProvider } from "react-redux";
 
 import store from "store";
 import NotificationsProvider from "providers/notifications";
+import LoadingProvider from "providers/loading";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
@@ -18,6 +19,7 @@ root.render(
     <BrowserRouter>
       <ReduxProvider store={store}>
         <NotificationsProvider />
+        <LoadingProvider />
 
         <App />
       </ReduxProvider>
