@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { getUsers } from "./users.api";
+import { getUsers, updateUser } from "./users.api";
 
 import type User from "types/user";
 
@@ -35,6 +35,22 @@ const usersSlice = createSlice({
         error:
           action.error.message ||
           "Error occurred while trying to fetch all users",
+      }))
+
+      .addCase(updateUser.pending, (state) => ({
+        ...state,
+        isLoading: true,
+      }))
+
+      .addCase(updateUser.rejected, (state, action) => ({
+        ...state,
+        isLoading: false,
+        error:
+          action.error.message || "Error occurred while trying to update user",
+      }))
+      .addCase(updateUser.fulfilled, (state, action) => ({
+        ...state,
+        isLoading: false,
       }));
   },
 });
