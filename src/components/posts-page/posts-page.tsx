@@ -37,7 +37,7 @@ function PostsPage() {
       )}
 
       {posts && posts.length > 0 && (
-        <Collapse>
+        <Collapse defaultActiveKey={posts[0].id}>
           {posts.map((post) => (
             <Collapse.Panel key={post.id} header={post.title}>
               <EditPost postId={post.id} />

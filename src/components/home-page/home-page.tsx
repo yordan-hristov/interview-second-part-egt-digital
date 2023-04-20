@@ -25,7 +25,7 @@ function HomePage() {
       )}
 
       {users && users.length > 0 && (
-        <Collapse>
+        <Collapse defaultActiveKey={users[0].id}>
           {users.map((user) => (
             <Collapse.Panel
               key={user.id}
