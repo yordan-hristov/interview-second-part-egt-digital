@@ -7,14 +7,13 @@ function useForm(initialFormValues: Record<string, string>) {
 
   const handleValuesChange = (changed: Partial<typeof initialFormValues>) => {
     const [key] = Object.keys(changed);
-    const castedKey = key as keyof typeof changed;
 
-    const currentValue = changed[castedKey];
+    const currentValue = changed[key];
 
-    if (currentValue?.trim() !== initialFormValues[castedKey].trim()) {
-      setDirtyFields((prev) => [...prev, castedKey]);
+    if (currentValue?.trim() !== initialFormValues[key].trim()) {
+      setDirtyFields((prev) => [...prev, key]);
     } else {
-      setDirtyFields((prev) => prev.filter((k) => k !== castedKey));
+      setDirtyFields((prev) => prev.filter((k) => k !== key));
     }
   };
 
